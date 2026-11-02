@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody2D rb;
     public float playerSpeed = 7f;
-    
+    public float speedMulti;
     private Vector2 moveInput;
-    private bool jumpInput;
+    private bool sprintInput;
     
     
     private void Awake()
