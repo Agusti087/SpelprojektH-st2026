@@ -39,6 +39,14 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         MovePlayer();
+        if(sprintInput)
+        {
+            speedMulti = 1.4f;
+        }
+        else
+        {
+            speedMulti = 1f;
+        }
 
     }
 
@@ -48,6 +56,9 @@ public class PlayerMovement : MonoBehaviour
     {
         moveInput = characterController.Player.Movement.ReadValue<Vector2>();
         rb.linearVelocity = new Vector2(moveInput.x * playerSpeed, rb.linearVelocity.y);
+        
+
+
         
     }
 
