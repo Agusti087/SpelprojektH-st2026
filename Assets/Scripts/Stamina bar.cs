@@ -9,12 +9,12 @@ public class Staminabar : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       StaminaChecker = player.GetComponent<PlayerMovement>();      
+       StaminaChecker = player.GetComponent<PlayerMovement>(); //fr movement script - oskar  
     }
 
     // Update is called once per frame
     void Update()
     {
-        uitext.text = "stamina = " + StaminaChecker.stamina;
+        uitext.text = "stamina = " + StaminaChecker.stamina; //skriver ut staminan - oskar
     }
 }
