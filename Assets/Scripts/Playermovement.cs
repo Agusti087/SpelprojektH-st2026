@@ -19,10 +19,10 @@ public class PlayerMovement : MonoBehaviour
     private float staminaDrain = 16.66f;
     private float staminaReg = 10f;
     private bool shouldReg; //bool för att veta om spelaren ska få stamina tillbaka
-    private bool isSprinting;
+    [SerializeField] bool isSprinting;
     public bool canSprint;
     private bool stoppedSprint;
-    private bool reached0;
+    [SerializeField] bool reached0;
     [SerializeField] int usePenalty; //tiden du väntar innan du kan springa igen ifall stamina tar slut - oskar
 
 
@@ -55,15 +55,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MovePlayer();
         StaminaHandler();
     }
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
+    
 
 
-    public float lastMoveInputMagnitude = 0.0f;
+    public float lastMoveInputMagnitude;
     private void MovePlayer()
     {
         moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som går att läsa - oskar
@@ -86,18 +84,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (sprintInput && canSprint == true) // om skift = speed multi, annars är den 1 - oskar
         {
-            speedMulti = 1.4f;
             isSprinting = true;
             shouldReg = false;
         }
-        else
-        {
-            speedMulti = 1f;
-        }
-
         if (isSprinting)
         {
             stamina -= staminaDrain * Time.deltaTime;
+            speedMulti = 1.4f;
+        }
+        else
+        {
+            speedMulti = 1.0f;
         }
         if (stamina <= 0f) //kollar om stamina nådde 0
         {
@@ -122,6 +119,10 @@ public class PlayerMovement : MonoBehaviour
             stamina = max_stamina;
             shouldReg = false;
         }
+        if (isSprinting && canSprint == false)
+        {
+            StartCoroutine(StopSprint());
+        }
 
     }
     IEnumerator stoppedAt0() //om stamina nådde 0 behöver du vänta ännu längre innan du kan springa - oskar
@@ -129,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         canSprint = false;
         yield return new WaitForSeconds(usePenalty);
         canSprint = true;
+        reached0 = false;
     }
     IEnumerator StopSprint() //väntar en stund innan stamina börjar regenerera - oskar
     {
