@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 6858304632049953418}
   - component: {fileID: 7878014625501976189}
   - component: {fileID: 5459284788035351007}
+  - component: {fileID: 2961434382865912346}
   m_Layer: 5
   m_Name: TransitionThing
   m_TagString: Untagged
@@ -201,3 +202,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &2961434382865912346
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6928087223197654728}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
