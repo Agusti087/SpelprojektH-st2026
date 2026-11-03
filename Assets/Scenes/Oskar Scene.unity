@@ -924,6 +924,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6403089327177060407, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
+      propertyPath: m_GravityScale
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6403089327177060407, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
       propertyPath: m_LinearDamping
       value: 0.46
       objectReference: {fileID: 0}
