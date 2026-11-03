@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enterable
   - Exposed
+  - Hidden
+  - Cold
   layers:
   - Default
   - TransparentFX

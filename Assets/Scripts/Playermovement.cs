@@ -56,13 +56,6 @@ public class PlayerMovement : MonoBehaviour
         {
             speedMulti = 1f;
         }
-        rb.linearVelocity = new Vector2(moveInput.x * playerSpeed * speedMulti, rb.linearVelocity.y); //tar movement value och flyttar på spelaren - oskar
-        
-
-
-        
+        rb.linearVelocity = new Vector2(moveInput.x * playerSpeed * speedMulti, rb.linearVelocity.y); //tar movement value och flyttar på spelaren - oskar   
     }
-
-
-
 }
