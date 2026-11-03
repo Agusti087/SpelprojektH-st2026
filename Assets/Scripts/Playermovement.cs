@@ -94,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
         {
             speedMulti = 1f;
         }
+
         if (isSprinting)
         {
             stamina -= staminaDrain * Time.deltaTime;
@@ -136,4 +137,5 @@ public class PlayerMovement : MonoBehaviour
         stoppedSprint = false;
         shouldReg = true;
     }
+
 }

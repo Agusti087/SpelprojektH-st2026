@@ -2,5 +2,6 @@ using UnityEngine;
 
 public static class StaticSettings 
 {
-   // Lägg till inställningarnas default data här. -Nils
+    // Lägg till inställningarnas default data här. -Nils
+
 }
