@@ -372,7 +372,13 @@ MonoBehaviour:
   enterable: 0
   hidden: 0
   EnterSwitch: 0
+  rb: {fileID: 558614066}
   spriterenderer: {fileID: 558614060}
+--- !u!50 &558614066 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6403089327177060407, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
+  m_PrefabInstance: {fileID: 558614058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &645031370
 PrefabInstance:
   m_ObjectHideFlags: 0

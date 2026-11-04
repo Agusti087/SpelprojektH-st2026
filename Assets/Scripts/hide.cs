@@ -9,7 +9,9 @@ public class hide : MonoBehaviour
     public bool enterable;
     public bool hidden;
     public bool EnterSwitch = false;
-    
+    private bool canChangeState = true;
+    public Rigidbody2D rb;
+
     public SpriteRenderer spriterenderer;
     
     private bool EnterInput;
@@ -37,6 +39,7 @@ public class hide : MonoBehaviour
             spriterenderer.enabled = false;
             gameObject.transform.GetComponent<PlayerMovement>().enabled = false;
             gameObject.tag = "Hidden";
+            rb.linearVelocity = Vector2.zero;
         }
         else
         {
@@ -44,17 +47,18 @@ public class hide : MonoBehaviour
             gameObject.transform.GetComponent<PlayerMovement>().enabled = true;
             gameObject.tag = "Exposed";
         }
-        if (Input.GetKeyDown(KeyCode.E) && enterable == true)
+        if (Input.GetKeyDown(KeyCode.E) && hidden == false && enterable == true && canChangeState == true)
         {
-            hidden = !hidden;
+            PlayerAudio.PlayOneShot(LockerEnter);
         }
-        if (Input.GetKeyDown(KeyCode.E) && hidden == false && enterable == true)
+        if (Input.GetKeyDown(KeyCode.E) && hidden == true && enterable == true && canChangeState == true)
         {
             PlayerAudio.PlayOneShot(LockerExit);
         }
-        if (Input.GetKeyDown(KeyCode.E) && hidden == true && enterable == true)
+        if (Input.GetKeyDown(KeyCode.E) && enterable == true && canChangeState == true)
         {
-            PlayerAudio.PlayOneShot(LockerEnter);
+            hidden = !hidden;
+            StartCoroutine(TimeDelay());
         }
         //debug för om man hamnar iväg från skåpet medans spelet tror att du är i det - Jack
         if (hidden && enterable == false)
@@ -64,6 +68,12 @@ public class hide : MonoBehaviour
         }
     }
        
+    IEnumerator TimeDelay()
+    {
+        canChangeState = false;
+        yield return new WaitForSeconds(2);
+        canChangeState = true;
+    }
     private void OnTriggerEnter2D(Collider2D other)//när du går in i en trigger tittar den taggen av triggern och om det är enterable så gör den boolen enterable till true - Jack
     {
 
