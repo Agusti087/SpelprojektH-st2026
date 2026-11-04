@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float speedMulti;
     private Vector2 moveInput;
     private bool sprintInput;
+    public float lastMoveInputMagnitude;
 
     //stamina
     public float max_stamina = 100f;
@@ -75,12 +76,14 @@ public class PlayerMovement : MonoBehaviour
         CrouchHandler();
     }
     
-    public float lastMoveInputMagnitude;
     private void MovePlayer()
     {
         moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som g�r att l�sa - oskar
+        moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som går att läsa - oskar
+        
         sprintInput = characterController.Player.Sprint.IsPressed(); //ger skift en bool - oskar
-        stoppedSprint = characterController.Player.Sprint.WasReleasedThisFrame();
+        stoppedSprint = characterController.Player.Sprint.WasReleasedThisFrame(); //kollar om du nyss slutade hålla in - oskar
+        
         crouchInput = characterController.Player.crouch.IsPressed();
         StoppedCrouch = characterController.Player.crouch.WasReleasedThisFrame();
 
@@ -89,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Mathf.Abs(moveInput.magnitude) < 0.001f)
             {
-                rb.linearVelocity= new Vector2(0,0);
+                rb.linearVelocity = new Vector2(0,0);
             }
         }
         lastMoveInputMagnitude = Mathf.Abs(moveInput.magnitude);
