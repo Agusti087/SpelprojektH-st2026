@@ -11,6 +11,9 @@ public class hide : MonoBehaviour
     public bool EnterSwitch = false;
     private bool canChangeState = true;
     public Rigidbody2D rb;
+    public GameObject playerLantern;
+    public GameObject playerSpriteLight;
+    public GameObject playerLanternDimmed;
 
     public SpriteRenderer spriterenderer;
     
@@ -27,7 +30,7 @@ public class hide : MonoBehaviour
     
     void Start()
     {
-        
+        playerLanternDimmed.SetActive(false);
     }
 
     // Update is called once per frame
@@ -50,10 +53,17 @@ public class hide : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && hidden == false && enterable == true && canChangeState == true)
         {
             PlayerAudio.PlayOneShot(LockerEnter);
+            playerLantern.SetActive(false);
+            playerSpriteLight.SetActive(false);
+            playerLanternDimmed.SetActive(true);
+
         }
         if (Input.GetKeyDown(KeyCode.E) && hidden == true && enterable == true && canChangeState == true)
         {
             PlayerAudio.PlayOneShot(LockerExit);
+            playerLantern.SetActive(true);
+            playerSpriteLight.SetActive(true);
+            playerLanternDimmed.SetActive(false);
         }
         if (Input.GetKeyDown(KeyCode.E) && enterable == true && canChangeState == true)
         {
