@@ -63,7 +63,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -118,9 +118,9 @@ TextureImporter:
       name: mc_sprite_idle_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 140
-        width: 36
+        x: 11
+        y: 70
+        width: 44
         height: 70
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -141,7 +141,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 11
-        y: 70
+        y: 0
         width: 44
         height: 70
       alignment: 0
@@ -184,9 +184,9 @@ TextureImporter:
       name: mc_sprite_idle_3
       rect:
         serializedVersion: 2
-        x: 11
-        y: 0
-        width: 44
+        x: 82
+        y: 70
+        width: 42
         height: 70
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -228,9 +228,9 @@ TextureImporter:
       name: mc_sprite_idle_5
       rect:
         serializedVersion: 2
-        x: 82
-        y: 70
-        width: 42
+        x: 15
+        y: 140
+        width: 36
         height: 70
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -250,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b1ea637cdf3b07e499185532e6a02d0f
+    spriteID: 2ece79deb676967459f7308a58a8caac
     internalID: 0
     vertices: []
     indices: 

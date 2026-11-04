@@ -25,12 +25,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool reached0;
     [SerializeField] int usePenalty; //tiden du väntar innan du kan springa igen ifall stamina tar slut - oskar
 
+    public KeycardHolder KeycardHolderPlayer = null;
 
-
-
+    public static PlayerMovement GlobalPlayer = null;
 
     private void Awake()
     {
+        GlobalPlayer = this;
         characterController = new CharacterController(); //character controller - oskar
         rb = GetComponent<Rigidbody2D>();
 

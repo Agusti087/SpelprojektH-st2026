@@ -8,6 +8,7 @@ TagManager:
   - Exposed
   - Hidden
   - Cold
+  - keycard door
   layers:
   - Default
   - TransparentFX
