@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //standard Movement
     CharacterController characterController;
-
     Rigidbody2D rb;
     public float playerSpeed = 7f;
     public float speedMulti;
@@ -25,7 +25,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool reached0;
     [SerializeField] int usePenalty; //tiden du väntar innan du kan springa igen ifall stamina tar slut - oskar
 
-
+    //crouch
+    Transform crouch;
+    [SerializeField] GameObject Player;
+    private float RealHeight = 1f;
+    private float currentHeight;
+    private float crouchHeight = 0.6f;
+    [SerializeField] bool isCrouched;
+    private bool StoppedCrouch;
+    private bool crouchInput;
+    private float crouchSpeed;
 
 
 
@@ -33,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = new CharacterController(); //character controller - oskar
         rb = GetComponent<Rigidbody2D>();
+        crouch = gameObject.GetComponent<Transform>();
 
     }
 
@@ -48,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        currentHeight = RealHeight;
         stamina = max_stamina;
         canSprint = true;
     }
@@ -57,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
         StaminaHandler();
+        CrouchHandler();
     }
     
 
@@ -67,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
         moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som går att läsa - oskar
         sprintInput = characterController.Player.Sprint.IsPressed(); //ger skift en bool - oskar
         stoppedSprint = characterController.Player.Sprint.WasReleasedThisFrame();
+        crouchInput = characterController.Player.crouch.IsPressed();
+        StoppedCrouch = characterController.Player.crouch.WasReleasedThisFrame();
 
         rb.linearVelocity = new Vector2(moveInput.x * playerSpeed * speedMulti, rb.linearVelocity.y); //tar movement value och flyttar på spelaren - oskar
         if (lastMoveInputMagnitude > 0.0f)
@@ -82,10 +96,13 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StaminaHandler()
     {
+        
         if (sprintInput && canSprint == true) // om skift = speed multi, annars är den 1 - oskar
         {
             isSprinting = true;
             shouldReg = false;
+            isCrouched = false;
+            StoppedCrouch = true;
         }
         if (isSprinting)
         {
@@ -119,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
             stamina = max_stamina;
             shouldReg = false;
         }
-        if (isSprinting && canSprint == false)
+        if (isSprinting && canSprint == false) //debug ifall något går fel - oskar
         {
             StartCoroutine(StopSprint());
         }
@@ -138,6 +155,27 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(2);
         stoppedSprint = false;
         shouldReg = true;
+    }
+
+    public void CrouchHandler()
+    {
+        Player.transform.localScale = new Vector3(1, currentHeight, 1);
+        if (crouchInput && isSprinting == false) //kan inte börja croucha om du springer - oskar
+        {
+            currentHeight = crouchHeight;
+            isCrouched = true;
+            speedMulti = 0.6f;        
+        }
+        if (StoppedCrouch)
+        {
+            currentHeight = RealHeight; 
+            if (sprintInput == false) //kollar om du börjar springa och låter den ta hand om speed iställer - oskar
+            {
+                speedMulti = 1f;
+            }
+
+        }
+        
     }
 
 }
