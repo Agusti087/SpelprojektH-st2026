@@ -48,11 +48,11 @@ public class hide : MonoBehaviour
         {
             hidden = !hidden;
         }
-        if (Input.GetKeyDown(KeyCode.E) && hidden == false)
+        if (Input.GetKeyDown(KeyCode.E) && hidden == false && enterable == true)
         {
             PlayerAudio.PlayOneShot(LockerExit);
         }
-        if (Input.GetKeyDown(KeyCode.E) && hidden == true)
+        if (Input.GetKeyDown(KeyCode.E) && hidden == true && enterable == true)
         {
             PlayerAudio.PlayOneShot(LockerEnter);
         }
