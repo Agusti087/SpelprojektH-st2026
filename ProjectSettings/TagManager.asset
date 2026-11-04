@@ -8,6 +8,7 @@ TagManager:
   - Exposed
   - Hidden
   - Cold
+  - keycard door
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,18 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player Back
+    uniqueID: 3636595561
+    locked: 0
+  - name: Collidables
+    uniqueID: 4130601629
+    locked: 0
+  - name: Player
+    uniqueID: 703055003
+    locked: 0
+  - name: Player Front
+    uniqueID: 534133421
     locked: 0
   m_RenderingLayers:
   - Default

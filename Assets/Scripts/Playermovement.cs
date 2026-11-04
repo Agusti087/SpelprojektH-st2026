@@ -18,12 +18,13 @@ public class PlayerMovement : MonoBehaviour
     public float stamina;
     private float staminaDrain = 16.66f;
     private float staminaReg = 10f;
-    private bool shouldReg; //bool för att veta om spelaren ska få stamina tillbaka
+    private bool shouldReg; //bool fï¿½r att veta om spelaren ska fï¿½ stamina tillbaka
     [SerializeField] bool isSprinting;
     public bool canSprint;
     private bool stoppedSprint;
     [SerializeField] bool reached0;
-    [SerializeField] int usePenalty; //tiden du väntar innan du kan springa igen ifall stamina tar slut - oskar
+    [SerializeField] int usePenalty; //tiden du vï¿½ntar innan du kan springa igen ifall stamina tar slut - oskar
+
 
     //crouch
     Transform crouch;
@@ -36,10 +37,13 @@ public class PlayerMovement : MonoBehaviour
     private bool crouchInput;
     private float crouchSpeed;
 
+    public KeycardHolder KeycardHolderPlayer = null;
 
+    public static PlayerMovement GlobalPlayer = null;
 
     private void Awake()
     {
+        GlobalPlayer = this;
         characterController = new CharacterController(); //character controller - oskar
         rb = GetComponent<Rigidbody2D>();
         crouch = gameObject.GetComponent<Transform>();
@@ -48,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        characterController.Enable(); //sätter igång character controllern - oskar
+        characterController.Enable(); //sï¿½tter igï¿½ng character controllern - oskar
     }
 
     private void OnDisable()
@@ -71,18 +75,16 @@ public class PlayerMovement : MonoBehaviour
         CrouchHandler();
     }
     
-
-
     public float lastMoveInputMagnitude;
     private void MovePlayer()
     {
-        moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som går att läsa - oskar
+        moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som gï¿½r att lï¿½sa - oskar
         sprintInput = characterController.Player.Sprint.IsPressed(); //ger skift en bool - oskar
         stoppedSprint = characterController.Player.Sprint.WasReleasedThisFrame();
         crouchInput = characterController.Player.crouch.IsPressed();
         StoppedCrouch = characterController.Player.crouch.WasReleasedThisFrame();
 
-        rb.linearVelocity = new Vector2(moveInput.x * playerSpeed * speedMulti, rb.linearVelocity.y); //tar movement value och flyttar på spelaren - oskar
+        rb.linearVelocity = new Vector2(moveInput.x * playerSpeed * speedMulti, rb.linearVelocity.y); //tar movement value och flyttar pï¿½ spelaren - oskar
         if (lastMoveInputMagnitude > 0.0f)
         {
             if (Mathf.Abs(moveInput.magnitude) < 0.001f)
@@ -97,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
     public void StaminaHandler()
     {
         
-        if (sprintInput && canSprint == true) // om skift = speed multi, annars är den 1 - oskar
+        if (sprintInput && canSprint == true) // om skift = speed multi, annars ï¿½r den 1 - oskar
         {
             isSprinting = true;
             shouldReg = false;
@@ -113,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
         {
             speedMulti = 1.0f;
         }
-        if (stamina <= 0f) //kollar om stamina nådde 0
+        if (stamina <= 0f) //kollar om stamina nï¿½dde 0
         {
             canSprint = false;
             stamina = 0f;
@@ -131,25 +133,25 @@ public class PlayerMovement : MonoBehaviour
             }
             StartCoroutine(StopSprint());
         }
-        if (stamina > max_stamina || stamina == max_stamina) //stänger av stamina regen om du når max - oskar
+        if (stamina > max_stamina || stamina == max_stamina) //stï¿½nger av stamina regen om du nï¿½r max - oskar
         {
             stamina = max_stamina;
             shouldReg = false;
         }
-        if (isSprinting && canSprint == false) //debug ifall något går fel - oskar
+        if (isSprinting && canSprint == false) //debug ifall nï¿½got gï¿½r fel - oskar
         {
             StartCoroutine(StopSprint());
         }
 
     }
-    IEnumerator stoppedAt0() //om stamina nådde 0 behöver du vänta ännu längre innan du kan springa - oskar
+    IEnumerator stoppedAt0() //om stamina nï¿½dde 0 behï¿½ver du vï¿½nta ï¿½nnu lï¿½ngre innan du kan springa - oskar
     {
         canSprint = false;
         yield return new WaitForSeconds(usePenalty);
         canSprint = true;
         reached0 = false;
     }
-    IEnumerator StopSprint() //väntar en stund innan stamina börjar regenerera - oskar
+    IEnumerator StopSprint() //vï¿½ntar en stund innan stamina bï¿½rjar regenerera - oskar
     {
         isSprinting = false;
         yield return new WaitForSeconds(2);
@@ -160,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
     public void CrouchHandler()
     {
         Player.transform.localScale = new Vector3(1, currentHeight, 1);
-        if (crouchInput && isSprinting == false) //kan inte börja croucha om du springer - oskar
+        if (crouchInput && isSprinting == false) //kan inte bï¿½rja croucha om du springer - oskar
         {
             currentHeight = crouchHeight;
             isCrouched = true;
@@ -169,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         if (StoppedCrouch)
         {
             currentHeight = RealHeight; 
-            if (sprintInput == false) //kollar om du börjar springa och låter den ta hand om speed iställer - oskar
+            if (sprintInput == false) //kollar om du bï¿½rjar springa och lï¿½ter den ta hand om speed istï¿½ller - oskar
             {
                 speedMulti = 1f;
             }
