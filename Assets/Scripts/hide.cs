@@ -3,6 +3,9 @@ using System.Collections;
 
 public class hide : MonoBehaviour
 {
+    public AudioSource PlayerAudio;
+    public AudioClip LockerEnter;
+    public AudioClip LockerExit;
     public bool enterable;
     public bool hidden;
     public bool EnterSwitch = false;
@@ -44,11 +47,13 @@ public class hide : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && enterable == true)
         {
             hidden = !hidden;
+            PlayerAudio.PlayOneShot(LockerEnter);
         }
         //debug för om man hamnar iväg från skåpet medans spelet tror att du är i det - Jack
         if (hidden && enterable == false)
         {
             hidden = false;
+            PlayerAudio.PlayOneShot(LockerExit);
         }
     }
        
