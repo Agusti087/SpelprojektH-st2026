@@ -47,13 +47,20 @@ public class hide : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && enterable == true)
         {
             hidden = !hidden;
+        }
+        if (Input.GetKeyDown(KeyCode.E) && hidden == false)
+        {
+            PlayerAudio.PlayOneShot(LockerExit);
+        }
+        if (Input.GetKeyDown(KeyCode.E) && hidden == true)
+        {
             PlayerAudio.PlayOneShot(LockerEnter);
         }
         //debug för om man hamnar iväg från skåpet medans spelet tror att du är i det - Jack
         if (hidden && enterable == false)
         {
             hidden = false;
-            PlayerAudio.PlayOneShot(LockerExit);
+        
         }
     }
        
