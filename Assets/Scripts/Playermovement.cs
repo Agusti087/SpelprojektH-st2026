@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject playerSpriteLight;
     public GameObject playerLanternDimmed;
 
+    private GameObject LockerPos;
+
     private Animator LockerAnims;
     
 
@@ -207,6 +209,7 @@ public class PlayerMovement : MonoBehaviour
             playerLantern.SetActive(false);
             playerSpriteLight.SetActive(false);
             playerLanternDimmed.SetActive(true);
+            transform.position = LockerPos.transform.position;
 
         }
         if (EPressed && hidden == true && enterable == true && canChangeState == true)
@@ -240,6 +243,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.tag == "Enterable")
         {
             LockerAnims = other.gameObject.GetComponent<Animator>();
+            LockerPos = other.gameObject;
             enterable = true;
             Debug.Log("gå in fy fan");
         }
