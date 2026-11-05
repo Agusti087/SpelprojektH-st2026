@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool sprintInput;
     public float lastMoveInputMagnitude;
+    private Animator Anim;
 
     //stamina
     public float max_stamina = 100f;
@@ -26,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool reached0;
     [SerializeField] int usePenalty; //tiden du v�ntar innan du kan springa igen ifall stamina tar slut - oskar
 
-
+    
     //crouch
     Transform crouch;
     [SerializeField] GameObject Player;
@@ -67,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
         stamina = max_stamina;
         canSprint = true;
     }
+    
 
     // Update is called once per frame
     void Update()
