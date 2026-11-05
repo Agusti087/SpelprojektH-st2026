@@ -188,6 +188,7 @@ public class PlayerMovement : MonoBehaviour
             gameObject.tag = "Hidden";
             rb.linearVelocity = Vector2.zero;
             LockerAnims.SetBool("Hidden", true);
+            LockerAnims.SetBool("CurrentlyInside", true);
         }
         else
         {
@@ -195,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
             gameObject.transform.GetComponent<PlayerMovement>().enabled = true;
             gameObject.tag = "Exposed";
             LockerAnims.SetBool("Hidden", false);
+            LockerAnims.SetBool("CurrentlyInside", false);
         }
         if (EPressed && hidden == false && enterable == true && canChangeState == true)
         {
