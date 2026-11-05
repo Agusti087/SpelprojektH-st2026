@@ -118,6 +118,15 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a66870b-433f-44b6-a82e-6cfc8b503415"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -175,6 +184,56 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
                     ""action"": ""Enter1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61ea45c3-b53a-4531-b95b-1e9f2d445a5c"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Stair"",
+            ""id"": ""eb37bb89-5ea9-4695-be26-82597335dc59"",
+            ""actions"": [
+                {
+                    ""name"": ""Stair"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ae5acfa-b4fe-4bd8-9cf7-5b875b670bc8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3e719db6-6612-44cd-ab50-e3d627b4acf0"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stair"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d304a4f-cd9f-421c-ba0c-6c58d5adbe96"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stair"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,11 +245,16 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Enter1 = m_Player.FindAction("Enter1", throwIfNotFound: true);
+        m_Player_crouch = m_Player.FindAction("crouch", throwIfNotFound: true);
+        // Stair
+        m_Stair = asset.FindActionMap("Stair", throwIfNotFound: true);
+        m_Stair_Stair = m_Stair.FindAction("Stair", throwIfNotFound: true);
     }
 
     ~@CharacterController()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, CharacterController.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Stair.enabled, "This will cause a leak and performance issues, CharacterController.Stair.Disable() has not been called.");
     }
 
     /// <summary>
@@ -269,6 +333,7 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Enter1;
+    private readonly InputAction m_Player_crouch;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -292,6 +357,10 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Enter1".
         /// </summary>
         public InputAction @Enter1 => m_Wrapper.m_Player_Enter1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/crouch".
+        /// </summary>
+        public InputAction @crouch => m_Wrapper.m_Player_crouch;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -327,6 +396,9 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
             @Enter1.started += instance.OnEnter1;
             @Enter1.performed += instance.OnEnter1;
             @Enter1.canceled += instance.OnEnter1;
+            @crouch.started += instance.OnCrouch;
+            @crouch.performed += instance.OnCrouch;
+            @crouch.canceled += instance.OnCrouch;
         }
 
         /// <summary>
@@ -347,6 +419,9 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
             @Enter1.started -= instance.OnEnter1;
             @Enter1.performed -= instance.OnEnter1;
             @Enter1.canceled -= instance.OnEnter1;
+            @crouch.started -= instance.OnCrouch;
+            @crouch.performed -= instance.OnCrouch;
+            @crouch.canceled -= instance.OnCrouch;
         }
 
         /// <summary>
@@ -380,6 +455,102 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Stair
+    private readonly InputActionMap m_Stair;
+    private List<IStairActions> m_StairActionsCallbackInterfaces = new List<IStairActions>();
+    private readonly InputAction m_Stair_Stair;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Stair".
+    /// </summary>
+    public struct StairActions
+    {
+        private @CharacterController m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public StairActions(@CharacterController wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Stair/Stair".
+        /// </summary>
+        public InputAction @Stair => m_Wrapper.m_Stair_Stair;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Stair; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="StairActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(StairActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="StairActions" />
+        public void AddCallbacks(IStairActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StairActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StairActionsCallbackInterfaces.Add(instance);
+            @Stair.started += instance.OnStair;
+            @Stair.performed += instance.OnStair;
+            @Stair.canceled += instance.OnStair;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="StairActions" />
+        private void UnregisterCallbacks(IStairActions instance)
+        {
+            @Stair.started -= instance.OnStair;
+            @Stair.performed -= instance.OnStair;
+            @Stair.canceled -= instance.OnStair;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="StairActions.UnregisterCallbacks(IStairActions)" />.
+        /// </summary>
+        /// <seealso cref="StairActions.UnregisterCallbacks(IStairActions)" />
+        public void RemoveCallbacks(IStairActions instance)
+        {
+            if (m_Wrapper.m_StairActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="StairActions.AddCallbacks(IStairActions)" />
+        /// <seealso cref="StairActions.RemoveCallbacks(IStairActions)" />
+        /// <seealso cref="StairActions.UnregisterCallbacks(IStairActions)" />
+        public void SetCallbacks(IStairActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StairActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StairActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="StairActions" /> instance referencing this action map.
+    /// </summary>
+    public StairActions @Stair => new StairActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
@@ -408,5 +579,27 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEnter1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCrouch(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Stair" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="StairActions.AddCallbacks(IStairActions)" />
+    /// <seealso cref="StairActions.RemoveCallbacks(IStairActions)" />
+    public interface IStairActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Stair" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStair(InputAction.CallbackContext context);
     }
 }
