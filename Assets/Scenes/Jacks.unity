@@ -525,6 +525,10 @@ PrefabInstance:
       propertyPath: KeycardHolderPlayer
       value: 
       objectReference: {fileID: 1653162844}
+    - target: {fileID: 3217183955188392053, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 6f75064532504d34eb4b975bccc43129, type: 3}
     - target: {fileID: 5871673668473317502, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.08319764
@@ -700,6 +704,10 @@ MonoBehaviour:
   enterable: 0
   hidden: 0
   EnterSwitch: 0
+  rb: {fileID: 0}
+  playerLantern: {fileID: 0}
+  playerSpriteLight: {fileID: 0}
+  playerLanternDimmed: {fileID: 0}
   spriterenderer: {fileID: 0}
 --- !u!114 &1653162833
 MonoBehaviour:
