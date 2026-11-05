@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool sprintInput;
     public float lastMoveInputMagnitude;
-    private Animator Anim;
+    private Animator playerAnim;
 
     //stamina
     public float max_stamina = 100f;
@@ -77,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerAnim = GetComponent<Animator>();
+
         DontDestroyOnLoad(this.gameObject);
         stamina = max_stamina;
         canSprint = true;
