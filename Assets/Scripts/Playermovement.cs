@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject playerSpriteLight;
     public GameObject playerLanternDimmed;
 
+    public Animator LockerAnims;
+
     public SpriteRenderer spriterenderer;
 
     private bool EnterInput;
@@ -185,12 +187,16 @@ public class PlayerMovement : MonoBehaviour
             spriterenderer.enabled = false;   
             gameObject.tag = "Hidden";
             rb.linearVelocity = Vector2.zero;
+            LockerAnims.SetBool("Hidden", true);
+            LockerAnims.SetBool("CurrentlyInside", true);
         }
         else
         {
             spriterenderer.enabled = true;
             gameObject.transform.GetComponent<PlayerMovement>().enabled = true;
             gameObject.tag = "Exposed";
+            LockerAnims.SetBool("Hidden", false);
+            LockerAnims.SetBool("CurrentlyInside", false);
         }
         if (EPressed && hidden == false && enterable == true && canChangeState == true)
         {
