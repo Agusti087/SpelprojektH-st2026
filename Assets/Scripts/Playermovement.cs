@@ -41,7 +41,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject playerSpriteLight;
     public GameObject playerLanternDimmed;
 
-    public Animator LockerAnims;
+    private Animator LockerAnims;
+    
+
 
     public SpriteRenderer spriterenderer;
 
@@ -57,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
         characterController = new CharacterController(); //character controller - oskar
         rb = GetComponent<Rigidbody2D>();
         spriterenderer = gameObject.GetComponent<SpriteRenderer>();
+        
 
     }
 
@@ -231,11 +234,12 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(2);
         canChangeState = true;
     }
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Enterable")
         {
+            LockerAnims = other.gameObject.GetComponent<Animator>();
             enterable = true;
             Debug.Log("gå in fy fan");
         }
