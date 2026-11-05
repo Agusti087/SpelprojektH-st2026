@@ -344,6 +344,14 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 558614059}
+    - target: {fileID: 2303994618264867619, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
+      propertyPath: isCrouched
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3217183955188392053, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4554453479113888708, guid: 8eb1c94a37eaad44c8d985fbcdd6ffb1, type: 3}
     - target: {fileID: 3217183955188392053, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
       propertyPath: m_SortingLayer
       value: 3
