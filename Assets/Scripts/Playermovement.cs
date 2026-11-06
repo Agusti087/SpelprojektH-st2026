@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private bool sprintInput;
     public float lastMoveInputMagnitude;
     private Animator playerAnim;
+    float horizontalMove;
+    public GameObject player;
 
     //stamina
     public float max_stamina = 100f;
@@ -43,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject LockerPos;
 
-    private Animator LockerAnims;
+    public Animator LockerAnims;
     
 
 
@@ -77,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         playerAnim = GetComponent<Animator>();
 
         DontDestroyOnLoad(this.gameObject);
@@ -92,6 +95,22 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer();
         StaminaHandler();      
         HidePlayer();
+        WalkAnims();
+    }
+
+    private void WalkAnims()
+    {
+        horizontalMove = lastMoveInputMagnitude;
+        playerAnim.SetFloat("Input", horizontalMove);
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            spriterenderer.flipX = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            spriterenderer.flipX = false;
+        }
     }
 
     private void MovePlayer()
