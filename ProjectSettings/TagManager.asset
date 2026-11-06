@@ -57,8 +57,11 @@ TagManager:
   - name: Player
     uniqueID: 703055003
     locked: 0
-  - name: Player Front
+  - name: Staircases
     uniqueID: 534133421
+    locked: 0
+  - name: Player Front
+    uniqueID: 4097350131
     locked: 0
   m_RenderingLayers:
   - Default
