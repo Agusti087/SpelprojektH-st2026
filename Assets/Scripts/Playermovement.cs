@@ -202,8 +202,12 @@ public class PlayerMovement : MonoBehaviour
             spriterenderer.enabled = true;
             gameObject.transform.GetComponent<PlayerMovement>().enabled = true;
             gameObject.tag = "Exposed";
-            LockerAnims.SetBool("Hidden", false);
-            LockerAnims.SetBool("CurrentlyInside", false);
+            if(LockerAnims != null)
+            {
+                LockerAnims.SetBool("Hidden", false);
+                LockerAnims.SetBool("CurrentlyInside", false);
+            }
+          
         }
         if (EPressed && hidden == false && enterable == true && canChangeState == true)
         {
@@ -233,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-    IEnumerator TimeDelay()
+    IEnumerator TimeDelay() //håller dig fast i lockeern eller utanför en kort stund innan du kan byta - oskar
     {
         canChangeState = false;
         yield return new WaitForSeconds(2);

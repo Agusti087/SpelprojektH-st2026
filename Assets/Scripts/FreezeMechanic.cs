@@ -20,6 +20,7 @@ public class FreezeMechanic : MonoBehaviour
     {
         if (freezeTime <= 0)
         {
+            Destroy(this.gameObject);
             SceneManager.LoadScene("Death Screen");
         }
     }
