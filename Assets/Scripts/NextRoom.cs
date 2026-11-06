@@ -10,23 +10,34 @@ public class NextRoom : MonoBehaviour
     
         [SerializeField] int roomNumber;
         [SerializeField] Vector3 nextPlayerPosition;
-        [SerializeField] GameObject player;
+        GameObject Player;
+    private void Awake()
+    {
+        Player = FindAnyObjectByType<PlayerMovement>().gameObject;
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Exposed") || other.CompareTag("Hidden")) //If the player collides then load the next scene.
         {
             
             Debug.Log(other);
-            if (player == null)
+            if (Player == null)
             {
-                player = other.gameObject;
+                Player = other.gameObject;
             }
             ChangeScene();
         }
     }
     private void ChangeScene() //Teleports the player before going to the next room.
     {
+<<<<<<< Updated upstream
         StartCoroutine(TimeDelay());
+=======
+        //Transition.Instance.StartTransition();
+        SceneManager.LoadScene(roomNumber);     
+        Player.transform.position = nextPlayerPosition;
+        
+>>>>>>> Stashed changes
     }
    
     

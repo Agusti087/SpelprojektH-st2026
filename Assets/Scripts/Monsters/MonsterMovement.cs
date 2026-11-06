@@ -29,12 +29,12 @@ public class MonsterMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject == Player && Player.tag == "Hidden")
+        if (other.gameObject == Player && Player.tag == "Hidden") // om spelaren är hidden spelas minigame - oskar
         {
             QuickStart.startQuick();
             Destroy(gameObject);
         }
-        if (other.gameObject == Player &&  Player.tag == "Exposed")
+        if (other.gameObject == Player &&  Player.tag == "Exposed") // dör om exposed - oskar
         {
             SceneManager.LoadScene("Death Screen");
             Player.SetActive(false);
