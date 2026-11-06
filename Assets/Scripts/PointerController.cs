@@ -1,61 +1,10 @@
-//using UnityEditor.Experimental.GraphView;
-//using UnityEngine;
-//using System;
-//using System.Collections; 
-
-//public class PointerController : MonoBehaviour
-//{
-//    public Transform pointA;
-//    public Transform pointB;
-//    public RectTransform safeZone;
-//    public float moveSpeed = 100f;
-//    private Transform pointerTransform;
-//    private Vector3 targetPosition;
-
-//    public float Direction { get; private set; }
-
-//    void Start()
-//    {
-//        pointerTransform = GetComponent<RectTransform>();
-//        targetPosition = pointB.position;
-//    }
-
-//    // Update is called once per frame
-//    void Update()
-//    {
-//        pointerTransform.position = Vector3.MoveTowards(pointerTransform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-//        if (Vector3.Distance(pointerTransform.position, pointA.position) < 0.1f)
-//        {
-//            targetPosition = pointB.position;
-//            Direction = 1f;
-//        }
-//        else if (Vector3.Distance(pointerTransform.position, pointB.position) < 0.1f)
-//        {
-//            targetPosition = pointB.position;
-//            Direction = 1f;
-//        }
-//        if (Input.GetKeyDown(KeyCode.Space))
-//        {
-//            CheckSuccess();
-//        }
-//    }
-//    void CheckSuccess()
-//    {
-//        if (RectTransform.RectangleContainsScreenPoint(SafeZone, pointerTransfer.position, null))
-//        {
-//            Debug.Log("Success");
-//        }
-//        else
-//        {
-//            Debug.Log("Fail");
-//        }
-//    }
-//}
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PointerController : MonoBehaviour
 {
+    public GameObject Player;
     public Transform pointA; // Reference to the starting point
     public Transform pointB; // Reference to the ending point
     public RectTransform safeZone; // Reference to the safe zone RectTransform
@@ -64,6 +13,9 @@ public class PointerController : MonoBehaviour
     private float direction = 1f; // 1 for moving towards B, -1 for moving towards A
     private RectTransform pointerTransform;
     private Vector3 targetPosition;
+    public float WinCounter;
+    public float DeathCounter;
+    public GameObject QuickTimeEvent;
 
     void Start()
     {
@@ -93,6 +45,18 @@ public class PointerController : MonoBehaviour
         {
             CheckSuccess();
         }
+        if (WinCounter >= 2)
+        {
+            QuickTimeEvent.SetActive(false);
+            WinCounter = 0;
+            DeathCounter = 0;
+        }
+        if (DeathCounter >= 2)
+        {
+            Player.SetActive(false);
+            
+            SceneManager.LoadScene("Death Screen");
+        }
     }
 
     void CheckSuccess()
@@ -102,10 +66,12 @@ public class PointerController : MonoBehaviour
         if (RectTransformUtility.RectangleContainsScreenPoint(safeZone, pointerTransform.position, null))
         {
             Debug.Log("Success!");
+            WinCounter++;
         }
         else
         {
             Debug.Log("Fail!");
+            DeathCounter++;
         }
     }
 }
