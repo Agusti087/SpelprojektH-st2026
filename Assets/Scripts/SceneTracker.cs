@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,7 @@ public class SceneTracker : MonoBehaviour
     public static bool MonsterExists = false;
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         MonsterExists = false;
     }
     private void OnEnable()
