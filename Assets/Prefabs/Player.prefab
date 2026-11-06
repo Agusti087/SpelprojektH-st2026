@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000690bc2d89dfa33f69bc4e729
+  m_ApplyToSortingLayers: 00000000690bc2d89dfa33f69bc4e729ad3ad61f
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -464,6 +464,7 @@ MonoBehaviour:
   playerSpeed: 7
   speedMulti: 0
   lastMoveInputMagnitude: 0
+  player: {fileID: 0}
   max_stamina: 100
   stamina: 0
   isSprinting: 0
@@ -480,6 +481,7 @@ MonoBehaviour:
   playerLantern: {fileID: 298799498654997991}
   playerSpriteLight: {fileID: 591380383475197561}
   playerLanternDimmed: {fileID: 8754337289009370503}
+  LockerAnims: {fileID: 0}
   spriterenderer: {fileID: 3217183955188392053}
   KeycardHolderPlayer: {fileID: 0}
 --- !u!70 &8500594622481538950
@@ -873,7 +875,7 @@ MonoBehaviour:
   m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000690bc2d89dfa33f69bc4e729
+  m_ApplyToSortingLayers: 00000000690bc2d89dfa33f69bc4e729ad3ad61f
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

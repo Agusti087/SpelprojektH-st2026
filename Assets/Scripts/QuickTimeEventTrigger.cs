@@ -8,15 +8,15 @@ public class QuickTimeEventTrigger : MonoBehaviour
     {
         
     }
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Update is called once per frame
-    void Update()
+    public void startQuick()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
+            QuickTimeEvent.SetActive(true);    
 
-            QuickTimeEvent.SetActive(true);
-
-        }
     }
 }
