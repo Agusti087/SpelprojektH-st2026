@@ -20,6 +20,7 @@ public class FreezeMechanic : MonoBehaviour
     {
         if (freezeTime <= 0)
         {
+            Destroy(this.gameObject);
             SceneManager.LoadScene("Death Screen");
         }
     }
@@ -45,14 +46,14 @@ public class FreezeMechanic : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             freezeTime --;
-            StartCoroutine(freezeTimer());
+            //StartCoroutine(freezeTimer());
             
         }
         else
         {
             freezeTime ++;
-            if(freezeTime < 15) StartCoroutine(freezeTimer());
-            else yield break;
+            //if(freezeTime < 15) StartCoroutine(freezeTimer());
+             yield break;
         }
     }
 

@@ -1780,10 +1780,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70e2ed05513b1c4982ff4c11145cf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  Player: {fileID: 1653162826}
   pointA: {fileID: 630860005}
   pointB: {fileID: 535311314}
   safeZone: {fileID: 1826991986}
   moveSpeed: 100
+  WinCounter: 0
+  DeathCounter: 0
+  QuickTimeEvent: {fileID: 959722013}
 --- !u!114 &1960431408
 MonoBehaviour:
   m_ObjectHideFlags: 0
