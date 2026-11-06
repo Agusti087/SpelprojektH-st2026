@@ -30,14 +30,14 @@ public class NextRoom : MonoBehaviour
     }
     private void ChangeScene() //Teleports the player before going to the next room.
     {
-<<<<<<< Updated upstream
+
         StartCoroutine(TimeDelay());
-=======
+
         //Transition.Instance.StartTransition();
         SceneManager.LoadScene(roomNumber);     
         Player.transform.position = nextPlayerPosition;
         
->>>>>>> Stashed changes
+
     }
    
     
@@ -46,7 +46,7 @@ public class NextRoom : MonoBehaviour
         Crossfade.SetTrigger("Start");
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(roomNumber);
-        player.transform.position = nextPlayerPosition;
+        Player.transform.position = nextPlayerPosition;
     }
 
     // Update is called once per frame
