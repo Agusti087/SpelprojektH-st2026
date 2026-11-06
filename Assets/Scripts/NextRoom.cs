@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class NextRoom : MonoBehaviour
 {
+    public Animator Crossfade;
      
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -25,15 +26,18 @@ public class NextRoom : MonoBehaviour
     }
     private void ChangeScene() //Teleports the player before going to the next room.
     {
-        //Transition.Instance.StartTransition();
-        SceneManager.LoadScene(roomNumber);     
-        player.transform.position = nextPlayerPosition;
-        
+        StartCoroutine(TimeDelay());
     }
    
     
-    
-   
+    IEnumerator TimeDelay()
+    {
+        Crossfade.SetTrigger("Start");
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(roomNumber);
+        player.transform.position = nextPlayerPosition;
+    }
+
     // Update is called once per frame
     void Update()
     {
