@@ -22,9 +22,17 @@ public class Monsterappeargen : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        foreach(var entity in scene.GetRootGameObjects())
+        {
+            if(entity.tag == "monsterSpawn")
+            {
+                SpawnLoc = entity.transform;
+                break;
+            }
+        }
+        
         int index = 0;
         foreach (var appearChance in AppearChance) 
         {

@@ -11,10 +11,14 @@ public class Staminabar : MonoBehaviour
     {
        StaminaChecker = player.GetComponent<PlayerMovement>(); //får movement script - oskar  
     }
+    private void Awake()
+    {
+           
+    }
 
     // Update is called once per frame
     void Update()
-    {
+    {       
         uitext.text = "stamina = " + StaminaChecker.stamina; //skriver ut staminan - oskar
     }
 }
