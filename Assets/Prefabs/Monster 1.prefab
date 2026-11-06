@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1058754799606971031}
   - component: {fileID: 4115319571897945398}
   - component: {fileID: -4817479720070532127}
+  - component: {fileID: -1268591583344342444}
   m_Layer: 0
   m_Name: Monster 1
   m_TagString: Untagged
@@ -104,4 +105,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6cd53dd040d5f47866ead11617e6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterMovement
+  Player: {fileID: 0}
+  QuickStart: {fileID: 0}
   Speed: 20
+--- !u!95 &-1268591583344342444
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8725375386925473291}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3893c13b3bcd65241b57364974cdd3b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
