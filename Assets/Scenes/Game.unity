@@ -316,6 +316,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2303994618264867619, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 47124052}
+    - target: {fileID: 2303994618264867619, guid: 5f76f8dd16bde044c9578db82d404ac2, type: 3}
       propertyPath: LockerExit
       value: 
       objectReference: {fileID: 8300000, guid: b11815f647cb3d145b0489028215f291, type: 3}

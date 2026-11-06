@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private bool sprintInput;
     public float lastMoveInputMagnitude;
     private Animator playerAnim;
+    float horizontalMove;
+    public GameObject player;
 
     //stamina
     public float max_stamina = 100f;
@@ -43,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject LockerPos;
 
-    private Animator LockerAnims;
+    public Animator LockerAnims;
     
 
 
@@ -77,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         playerAnim = GetComponent<Animator>();
 
         DontDestroyOnLoad(this.gameObject);
@@ -92,6 +95,22 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer();
         StaminaHandler();      
         HidePlayer();
+        WalkAnims();
+    }
+
+    private void WalkAnims()
+    {
+        horizontalMove = lastMoveInputMagnitude;
+        playerAnim.SetFloat("Input", horizontalMove);
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            spriterenderer.flipX = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            spriterenderer.flipX = false;
+        }
     }
 
     private void MovePlayer()
@@ -194,8 +213,12 @@ public class PlayerMovement : MonoBehaviour
             spriterenderer.enabled = false;   
             gameObject.tag = "Hidden";
             rb.linearVelocity = Vector2.zero;
-            LockerAnims.SetBool("Hidden", true);
-            LockerAnims.SetBool("CurrentlyInside", true);
+            if(LockerAnims != null)
+            {
+                LockerAnims.SetBool("Hidden", true);
+                LockerAnims.SetBool("CurrentlyInside", true);
+            }
+       
         }
         else
         {
@@ -207,7 +230,7 @@ public class PlayerMovement : MonoBehaviour
                 LockerAnims.SetBool("Hidden", false);
                 LockerAnims.SetBool("CurrentlyInside", false);
             }
-          
+           
         }
         if (EPressed && hidden == false && enterable == true && canChangeState == true)
         {
@@ -237,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-    IEnumerator TimeDelay() //håller dig fast i lockeern eller utanför en kort stund innan du kan byta - oskar
+    IEnumerator TimeDelay()
     {
         canChangeState = false;
         yield return new WaitForSeconds(2);
