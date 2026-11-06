@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
+//READ ME: Jag ändrar den här funktionen till att starta om scenen. Förut var denna script gjord för att ta dig till menyn.
+
 
 public class BackToMainMenu : MonoBehaviour
 {
@@ -22,6 +24,6 @@ public class BackToMainMenu : MonoBehaviour
 
         yield return new WaitForSeconds(transitionTime);
 
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Game");
     }
 }

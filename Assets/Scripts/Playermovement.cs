@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
         if (isSprinting)
         {
             stamina -= staminaDrain * Time.deltaTime;
-            speedMulti = 1.4f;
+            speedMulti = 1.85f;
         }
         else
         {
