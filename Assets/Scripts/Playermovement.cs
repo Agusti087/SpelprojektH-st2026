@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool sprintInput;
     public float lastMoveInputMagnitude;
-    private Animator Anim;
+    private Animator playerAnim;
 
     //stamina
     public float max_stamina = 100f;
@@ -27,17 +27,29 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool reached0;
     [SerializeField] int usePenalty; //tiden du v�ntar innan du kan springa igen ifall stamina tar slut - oskar
 
+    //Hide
+    private bool EPressed;
+    public AudioSource PlayerAudio;
+    public AudioClip LockerEnter;
+    public AudioClip LockerExit;
+    public bool enterable;
+    public bool hidden;
+    public bool EnterSwitch = false;
+    [SerializeField] bool canChangeState = true;
+
+    public GameObject playerLantern;
+    public GameObject playerSpriteLight;
+    public GameObject playerLanternDimmed;
+
+    private GameObject LockerPos;
+
+    private Animator LockerAnims;
     
-    //crouch
-    Transform crouch;
-    [SerializeField] GameObject Player;
-    private float RealHeight = 1f;
-    private float currentHeight;
-    private float crouchHeight = 0.6f;
-    [SerializeField] bool isCrouched;
-    private bool StoppedCrouch;
-    private bool crouchInput;
-    private float crouchSpeed;
+
+
+    public SpriteRenderer spriterenderer;
+
+    private bool EnterInput;
 
     public KeycardHolder KeycardHolderPlayer = null;
 
@@ -48,7 +60,8 @@ public class PlayerMovement : MonoBehaviour
         GlobalPlayer = this;
         characterController = new CharacterController(); //character controller - oskar
         rb = GetComponent<Rigidbody2D>();
-        crouch = gameObject.GetComponent<Transform>();
+        spriterenderer = gameObject.GetComponent<SpriteRenderer>();
+        
 
     }
 
@@ -64,37 +77,41 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentHeight = RealHeight;
+        playerAnim = GetComponent<Animator>();
+
+        DontDestroyOnLoad(this.gameObject);
         stamina = max_stamina;
         canSprint = true;
+        playerLanternDimmed.SetActive(false);        
     }
-    
+
 
     // Update is called once per frame
     void Update()
     {
         MovePlayer();
-        StaminaHandler();
-        CrouchHandler();
+        StaminaHandler();      
+        HidePlayer();
     }
-    
+
     private void MovePlayer()
     {
-        moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som g�r att l�sa - oskar
-        moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som går att läsa - oskar
+        if (gameObject.tag == "Exposed")
+        {
+            moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som g�r att l�sa - oskar
+            moveInput = characterController.Player.Movement.ReadValue<Vector2>(); //ger W och A ett value som går att läsa - oskar
+
+            sprintInput = characterController.Player.Sprint.IsPressed(); //ger skift en bool - oskar
+            stoppedSprint = characterController.Player.Sprint.WasReleasedThisFrame(); //kollar om du nyss slutade hålla in - oskar
+        }
         
-        sprintInput = characterController.Player.Sprint.IsPressed(); //ger skift en bool - oskar
-        stoppedSprint = characterController.Player.Sprint.WasReleasedThisFrame(); //kollar om du nyss slutade hålla in - oskar
-        
-        crouchInput = characterController.Player.crouch.IsPressed();
-        StoppedCrouch = characterController.Player.crouch.WasReleasedThisFrame();
 
         rb.linearVelocity = new Vector2(moveInput.x * playerSpeed * speedMulti, rb.linearVelocity.y); //tar movement value och flyttar p� spelaren - oskar
         if (lastMoveInputMagnitude > 0.0f)
         {
             if (Mathf.Abs(moveInput.magnitude) < 0.001f)
             {
-                rb.linearVelocity = new Vector2(0,0);
+                rb.linearVelocity = new Vector2(0, 0);
             }
         }
         lastMoveInputMagnitude = Mathf.Abs(moveInput.magnitude);
@@ -103,13 +120,12 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StaminaHandler()
     {
-        
+
         if (sprintInput && canSprint == true) // om skift = speed multi, annars �r den 1 - oskar
         {
             isSprinting = true;
             shouldReg = false;
-            isCrouched = false;
-            StoppedCrouch = true;
+            
         }
         if (isSprinting)
         {
@@ -164,25 +180,81 @@ public class PlayerMovement : MonoBehaviour
         shouldReg = true;
     }
 
-    public void CrouchHandler()
+    
+    private void HidePlayer()
     {
-        Player.transform.localScale = new Vector3(1, currentHeight, 1);
-        if (crouchInput && isSprinting == false) //kan inte b�rja croucha om du springer - oskar
+        EPressed = characterController.Player.Hide.WasPressedThisFrame();
+        //när hidden är true blir du onsynlig, slutar kunna röra dig och spelarens tag ändras från exposed till hidden. annars funkar allt som normalt - Jack
+        if (EPressed)
         {
-            currentHeight = crouchHeight;
-            isCrouched = true;
-            speedMulti = 0.6f;        
+            Debug.Log("JÄVLA SKITUNGE");
         }
-        if (StoppedCrouch)
+        if (hidden == true)
         {
-            currentHeight = RealHeight; 
-            if (sprintInput == false) //kollar om du b�rjar springa och l�ter den ta hand om speed ist�ller - oskar
-            {
-                speedMulti = 1f;
-            }
+            spriterenderer.enabled = false;   
+            gameObject.tag = "Hidden";
+            rb.linearVelocity = Vector2.zero;
+            LockerAnims.SetBool("Hidden", true);
+            LockerAnims.SetBool("CurrentlyInside", true);
+        }
+        else
+        {
+            spriterenderer.enabled = true;
+            gameObject.transform.GetComponent<PlayerMovement>().enabled = true;
+            gameObject.tag = "Exposed";
+            LockerAnims.SetBool("Hidden", false);
+            LockerAnims.SetBool("CurrentlyInside", false);
+        }
+        if (EPressed && hidden == false && enterable == true && canChangeState == true)
+        {
+            PlayerAudio.PlayOneShot(LockerEnter);
+            playerLantern.SetActive(false);
+            playerSpriteLight.SetActive(false);
+            playerLanternDimmed.SetActive(true);
+            transform.position = LockerPos.transform.position;
 
         }
-        
+        if (EPressed && hidden == true && enterable == true && canChangeState == true)
+        {
+            PlayerAudio.PlayOneShot(LockerExit);
+            playerLantern.SetActive(true);
+            playerSpriteLight.SetActive(true);
+            playerLanternDimmed.SetActive(false);
+        }
+        if (EPressed && enterable == true && canChangeState == true)
+        {
+            hidden = !hidden;
+            StartCoroutine(TimeDelay());
+        }
+        //debug för om man hamnar iväg från skåpet medans spelet tror att du är i det - Jack
+        if (hidden && enterable == false)
+        {
+            hidden = false;
+
+        }
     }
-
+    IEnumerator TimeDelay()
+    {
+        canChangeState = false;
+        yield return new WaitForSeconds(2);
+        canChangeState = true;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Enterable")
+        {
+            LockerAnims = other.gameObject.GetComponent<Animator>();
+            LockerPos = other.gameObject;
+            enterable = true;
+            Debug.Log("gå in fy fan");
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        enterable = false;
+    }
 }
+    
+
+

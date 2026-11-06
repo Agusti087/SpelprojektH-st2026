@@ -127,6 +127,15 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hide"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f7de77a-0f99-4176-99e2-7e47be0cf46a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -195,6 +204,17 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
                     ""action"": ""crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48e2156a-8238-4ab4-b173-fe1192c76cc3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -246,6 +266,7 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Enter1 = m_Player.FindAction("Enter1", throwIfNotFound: true);
         m_Player_crouch = m_Player.FindAction("crouch", throwIfNotFound: true);
+        m_Player_Hide = m_Player.FindAction("Hide", throwIfNotFound: true);
         // Stair
         m_Stair = asset.FindActionMap("Stair", throwIfNotFound: true);
         m_Stair_Stair = m_Stair.FindAction("Stair", throwIfNotFound: true);
@@ -334,6 +355,7 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Enter1;
     private readonly InputAction m_Player_crouch;
+    private readonly InputAction m_Player_Hide;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -361,6 +383,10 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/crouch".
         /// </summary>
         public InputAction @crouch => m_Wrapper.m_Player_crouch;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Hide".
+        /// </summary>
+        public InputAction @Hide => m_Wrapper.m_Player_Hide;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -399,6 +425,9 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
             @crouch.started += instance.OnCrouch;
             @crouch.performed += instance.OnCrouch;
             @crouch.canceled += instance.OnCrouch;
+            @Hide.started += instance.OnHide;
+            @Hide.performed += instance.OnHide;
+            @Hide.canceled += instance.OnHide;
         }
 
         /// <summary>
@@ -422,6 +451,9 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
             @crouch.started -= instance.OnCrouch;
             @crouch.performed -= instance.OnCrouch;
             @crouch.canceled -= instance.OnCrouch;
+            @Hide.started -= instance.OnHide;
+            @Hide.performed -= instance.OnHide;
+            @Hide.canceled -= instance.OnHide;
         }
 
         /// <summary>
@@ -586,6 +618,13 @@ public partial class @CharacterController: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCrouch(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Hide" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHide(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Stair" which allows adding and removing callbacks.

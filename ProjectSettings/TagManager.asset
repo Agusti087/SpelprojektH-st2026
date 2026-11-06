@@ -9,6 +9,7 @@ TagManager:
   - Hidden
   - Cold
   - keycard door
+  - BaseTeleporter
   layers:
   - Default
   - TransparentFX
